@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>Productos · BBQ Reservas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/app.css" rel="stylesheet">
+</head>
+<body>
+  <div id="page" class="page" hidden>
+    <div class="breadcrumbs" id="crumbs"></div>
+    <div class="page-header">
+      <div>
+        <h2 id="title">Productos</h2>
+        <div class="subtitle">Adicionales que el cliente puede agregar a su reserva (carbón, bebidas, utensilios...).</div>
+      </div>
+      <button type="button" class="btn btn-primary" id="btn-new">+ Nuevo Producto</button>
+    </div>
+
+    <div class="filtro-bar">
+      <input type="text" id="search" class="input-buscar" placeholder="Buscar producto...">
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th class="num">Precio</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal fade" id="product-modal" tabindex="-1">
+    <div class="modal-dialog">
+      <form class="modal-content" id="product-form" novalidate>
+        <div class="modal-header">
+          <h5 class="modal-title">Nuevo Producto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-error form-error" hidden></div>
+          <input type="hidden" name="id">
+          <div class="form-group mb-3">
+            <label>Nombre *</label>
+            <input name="name" maxlength="100" required>
+          </div>
+          <div class="form-group">
+            <label>Precio unitario (S/) *</label>
+            <input name="price" type="number" min="0" step="0.01" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Guardar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/pages/company-products.js"></script>
+</body>
+</html>
