@@ -35,6 +35,14 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         return value instanceof Number n ? n.intValue() : null;
     }
 
+    /** El login no revisa el token: uno vencido no debe impedir iniciar sesión de nuevo. */
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest req) {
+        String uri = req.getRequestURI();
+        return "POST".equals(req.getMethod())
+            && (uri.equals("/api/admin/login") || uri.equals("/api/company/login"));
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res,
                                     FilterChain chain) throws ServletException, IOException {

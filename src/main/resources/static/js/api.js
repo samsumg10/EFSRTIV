@@ -34,7 +34,9 @@ const Api = (() => {
   async function request(method, url, body) {
     const headers = { Accept: 'application/json' };
     const a = area();
-    const token = a === 'public' ? null : getToken(a);
+    // El login no manda el token guardado: si está vencido, el servidor rechazaría el login
+    const isLogin = url.endsWith('/login');
+    const token = a === 'public' || isLogin ? null : getToken(a);
     if (token) headers.Authorization = 'Bearer ' + token;
     if (body !== undefined) headers['Content-Type'] = 'application/json';
 
@@ -51,7 +53,7 @@ const Api = (() => {
       try { data = JSON.parse(text); } catch { data = null; }
     }
 
-    if (res.status === 401 && a !== 'public' && !url.endsWith('/login')) {
+    if (res.status === 401 && a !== 'public' && !isLogin) {
       clearToken(a);
       location.href = `/${a}/login`;
       throw new ApiError(401, (data && data.message) || 'Sesión expirada.', {});

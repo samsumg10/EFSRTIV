@@ -31,7 +31,8 @@ No hay tests automatizados en el repo (el proyecto de referencia tampoco los tie
 Spring Boot 4.0.5 · Java 21 · Maven wrapper · MySQL 8.4.7 en Docker (:3309, `bbq_db`, `myuser`/`secret`)
 · Spring Data JPA · Spring Security + JWT (jjwt 0.11.5) · Lombok · Bootstrap 5.3 + FullCalendar 5.11.3 por CDN.
 
-`docker compose up -d` y `.\mvnw.cmd spring-boot:run` → http://localhost:8081
+`docker compose up -d --build` (MySQL + app con Java 21, multi-stage `Dockerfile`) o `docker compose up -d mysql`
++ `.\mvnw.cmd spring-boot:run` → http://localhost:8081
 (el 80 lo ocupa el Docker de `bbq` y el 8080 otro proyecto Spring).
 Demo: admin `admin@bbq.com`/`admin123` · empresa `demo@bbq.com`/`demo1234` (tipo 1) · `empleado@bbq.com`/`demo1234` (tipo 2).
 

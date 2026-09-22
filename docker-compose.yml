@@ -1,3 +1,4 @@
+name: 'EFSRT-IV-Proyecto'
 services:
   mysql:
     image: 'mysql:8.4.7'
@@ -8,3 +9,30 @@ services:
       - 'MYSQL_USER=myuser'
     ports:
       - '3309:3306'
+    volumes:
+      - 'mysql-data:/var/lib/mysql'
+    # Por TCP (127.0.0.1): durante la inicialización MySQL solo escucha por socket, así no se da por listo antes de tiempo
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', '127.0.0.1', '-u', 'root', '-pverysecret']
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  # La app compilada con Java 21 dentro de Docker (ver Dockerfile)
+  app:
+    build: .
+    environment:
+      - 'SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/bbq_db?createDatabaseIfNotExist=true'
+      - 'SPRING_DATASOURCE_USERNAME=myuser'
+      - 'SPRING_DATASOURCE_PASSWORD=secret'
+      # La ventana de reserva y los plazos de pago usan la fecha de "hoy" en Perú
+      - 'TZ=America/Lima'
+    ports:
+      - '8081:8081'
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  mysql-data:

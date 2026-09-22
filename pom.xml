@@ -10,7 +10,7 @@
         <relativePath/>
     </parent>
     <groupId>com.cibertec</groupId>
-    <artifactId>bbq</artifactId>
+    <artifactId>EFSRT-IV-PROYECTO</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>bbq</name>
     <description>BBQ Reservas — sistema de reservas multi-empresa</description>

@@ -5,16 +5,31 @@ del sistema Laravel `bbq`. Proyecto EFSRT IV — CIBERTEC.
 
 ## Requisitos
 
-- Java 21
-- Docker Desktop (para MySQL 8.4)
-- Conexión a internet la primera vez (Maven descarga dependencias; las páginas cargan Bootstrap y FullCalendar por CDN)
+- Docker Desktop (abierto antes de ejecutar los comandos)
+- Conexión a internet la primera vez (Docker descarga las imágenes y Maven las dependencias; las páginas cargan Bootstrap y FullCalendar por CDN)
+- Java 21 **solo** si vas a correr la app fuera de Docker (opción B)
 
 ## Cómo levantarlo
 
+**Opción A: todo en Docker (no necesitas Java instalado)**
+
 ```powershell
-docker compose up -d          # MySQL 8.4 en localhost:3309 (bbq_db / myuser / secret)
-.\mvnw.cmd spring-boot:run    # la app en http://localhost:8081
+docker compose up -d --build   # MySQL 8.4 + la app compilada con Java 21 → http://localhost:8081
 ```
+
+La primera vez tarda unos minutos, mientras descarga las imágenes y compila. Después de cambiar el código,
+vuelve a ejecutar el mismo comando para recompilar.
+Logs de la app: `docker compose logs -f app`.
+
+**Opción B: MySQL en Docker y la app desde tu IDE o terminal (para desarrollar)**
+
+```powershell
+docker compose up -d mysql     # solo MySQL en localhost:3309 (bbq_db / myuser / secret)
+.\mvnw.cmd spring-boot:run     # la app en http://localhost:8081 (requiere Java 21)
+```
+
+No mezcles las dos opciones: ambas usan el puerto 8081. Si antes levantaste la opción A, primero
+ejecuta `docker compose stop app`.
 
 Al primer arranque se crean las tablas (`schema.sql`) y los datos demo (`DataInitializer`).
 Para empezar de cero: `docker compose down -v` y volver a levantar.
